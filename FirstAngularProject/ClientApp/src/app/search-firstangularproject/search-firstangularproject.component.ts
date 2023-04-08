@@ -7,4 +7,16 @@ import { Component } from '@angular/core';
 })
 export class SearchFirstangularprojectComponent {
 
+  searchResult: any = [
+  //  "American Airlines",
+  //"British Airways",
+  //"Lufthansa",
+  //"Bruxel Airlines",
+  //"Ryanair"
+  ]
+  constructor() { }
+
+  ngOnInit(): void {
+
+  }
 }
