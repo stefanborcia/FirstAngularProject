@@ -45,7 +45,7 @@
         <input class="form-control" type="number" placeholder="1" />
         <div class="input-group-text">Passengers</div>
 
-        <button type="submit" class="btn-primary btn">
+        <button (click)="search()" type="submit" class="btn-primary btn">
           <i class="fas fa-search"></i>
 
         </button>
@@ -64,7 +64,7 @@
 
 <div *ngFor="let flight of searchResult">
   <div class="card text-dark mt-5 text-center">
-    <div class="card-body">
+    <div class="card-body" style="padding: 20px; background-color: lightcyan">
       <h6 class="card-title">{{flight.airline}}</h6>
       <div class="card-title" style="color:green">
         {{flight.remainingNumberOfSeats}} remaining seats
@@ -79,17 +79,17 @@
 
             <div class="col">
               <i class="fa-solid fa-location-dot"></i>
-              {{flight.departure.place}}
+              {{flight.departure?.place}}
             </div>
 
             <div class="col m-2">
               <i class="fa-regular"></i>
-              {{flight.departure.time | date}}
+              {{flight.departure?.time | date}}
             </div>
 
             <div class="col">
               <i class="fa-regular fa-clock"></i>
-              {{flight.departure.time | date: "shortTime"}}
+              {{flight.departure?.time | date: "shortTime"}}
             </div>
 
 
@@ -114,17 +114,17 @@
 
             <div class="col">
               <i class="fa-solid fa-location-dot"></i>
-              {{flight.arrival.place}}
+              {{flight.arrival?.place}}
             </div>
 
             <div class="col m-2">
               <i class="fa-regular"></i>
-              {{flight.arrival.time | date}}
+              {{flight.arrival?.time | date}}
             </div>
 
             <div class="col">
               <i class="fa-regular fa-clock"></i>
-              {{flight.arrival.time | date: "shortTime"}}
+              {{flight.arrival?.time | date: "shortTime"}}
             </div>
           </div>
         </div>
