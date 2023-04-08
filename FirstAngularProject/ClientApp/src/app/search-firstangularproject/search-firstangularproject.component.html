@@ -40,15 +40,16 @@
       <label class="form-label text-primary mt-2">Number of Passengers</label>
     </div>
     <div class="col">
-      <div class="input-group"></div>
-      <div class="input-group-text">For</div>
-      <input class="form-control" type="number" placeholder="1"/>
-      <div class="input-group-text">Passengers</div>
+      <div class="input-group">
+        <div class="input-group-text">For</div>
+        <input class="form-control" type="number" placeholder="1" />
+        <div class="input-group-text">Passengers</div>
 
-      <button type="submit" class="btn-primary btn">
-        <i class="fas fa-search"></i>
+        <button type="submit" class="btn-primary btn">
+          <i class="fas fa-search"></i>
 
-      </button>
+        </button>
+      </div>
     </div>
 
   </div>
@@ -62,5 +63,72 @@
 
 
 <div *ngFor="let flight of searchResult">
-  {{flight}}
+  <div class="card text-dark mt-5 text-center">
+    <div class="card-body">
+      <h6 class="card-title">{{flight.airline}}</h6>
+      <div class="card-title" style="color:green">
+        {{flight.remainingNumberOfSeats}} remaining seats
+      </div>
+      <div class="d-grid text-center g-2">
+        <div class="row">
+          <div class="col">
+
+            <div class="col m-3">
+              <i class="text-primary fas fa-plane-departure" style="font-size: 20px;"></i>
+            </div>
+
+            <div class="col">
+              <i class="fa-solid fa-location-dot"></i>
+              {{flight.departure.place}}
+            </div>
+
+            <div class="col m-2">
+              <i class="fa-regular"></i>
+              {{flight.departure.time | date}}
+            </div>
+
+            <div class="col">
+              <i class="fa-regular fa-clock"></i>
+              {{flight.departure.time | date: "shortTime"}}
+            </div>
+
+
+          </div>
+          <div class="col">
+            <div style="display: flex;">
+              <i class="fa-solid fa-circle" style="margin-top: 50px; font-size: 9px;"></i>
+              <hr style="display: block; width: 100%; margin-top: 55px;" />
+              <i class="fas fa-plane" style="margin-top:48px"></i>
+            </div>
+
+            <i class="fas fa-eur">{{flight.price}}</i>
+            <br />
+            <a class="btn btn-secondary btn-lg mt-2">
+              <i class="fas fa-ticket">Buy</i>
+            </a>
+          </div>
+          <div class="col">
+            <div class="col m-3">
+              <i class="text-primary fas fa-plane-arrival" style="font-size: 20px;"></i>
+            </div>
+
+            <div class="col">
+              <i class="fa-solid fa-location-dot"></i>
+              {{flight.arrival.place}}
+            </div>
+
+            <div class="col m-2">
+              <i class="fa-regular"></i>
+              {{flight.arrival.time | date}}
+            </div>
+
+            <div class="col">
+              <i class="fa-regular fa-clock"></i>
+              {{flight.arrival.time | date: "shortTime"}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
