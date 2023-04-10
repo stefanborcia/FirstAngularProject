@@ -19,7 +19,7 @@ export class SearchFirstangularprojectComponent {
   }
 
   search() {
-    this.flightService.searchFlight({}).subscribe(response => this.searchResult = response,
+    this.flightService.searchFlight({}).subscribe(response => this.searchResult = ((response) as any),
       this.handleError);
   }
 

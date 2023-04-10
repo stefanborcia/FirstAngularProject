@@ -6,6 +6,10 @@ namespace FirstAngularProject.Controllers;
 
 [ApiController]
 [Route("[controller]")]
+[ProducesResponseType(StatusCodes.Status400BadRequest)]
+[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+[ProducesResponseType(typeof(FlightRm), 200)]
+
 public class FlightController : ControllerBase
 {
 
@@ -70,13 +74,28 @@ public class FlightController : ControllerBase
     {
         _logger = logger;
     }
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+
 
     [HttpGet]
     public IEnumerable<FlightRm> Search() => flights;
 
     [HttpGet("{id}")]
 
-    public FlightRm Find(Guid id) => flights.SingleOrDefault(f => f.Id == id);
+    public ActionResult<FlightRm> Find(Guid id)
+    {
+        var flight = (flights.SingleOrDefault(f => f.Id == id));
+
+        if (flight == null)
+        {
+            return this.NotFound();
+        }
+        else
+        {
+            return Ok(flight);
+        }
+        
+    }
 
 
 }
