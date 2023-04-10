@@ -19,6 +19,11 @@ export class SearchFirstangularprojectComponent {
   }
 
   search() {
-    this.flightService.flightGet({}).subscribe(response => this.searchResult = response);
+    this.flightService.searchFlight({}).subscribe(response => this.searchResult = response,
+      this.handleError);
+  }
+
+  private handleError(error: any) {
+    console.log(error);
   }
 }
