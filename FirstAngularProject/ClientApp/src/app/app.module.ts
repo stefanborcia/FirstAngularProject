@@ -25,7 +25,7 @@ NgModule({
     RouterModule.forRoot([
       { path: '', component: SearchFirstangularprojectComponent, pathMatch: 'full' },
       { path: 'search-flights', component: SearchFirstangularprojectComponent },
-      { path: 'book-flight', component: BookFlightComponent }
+      { path: 'book-flight/:flightId', component: BookFlightComponent }
     ])
   ],
   providers: [],
