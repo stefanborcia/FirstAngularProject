@@ -8,13 +8,18 @@ namespace FirstAngularProject.Controllers
     [ApiController]
     public class PassengerController : ControllerBase
     {
+        static private IList<NewPassengerDto> Passengers = new List<NewPassengerDto>();
+
+
         [HttpPost]
         [ProducesResponseType(201)] //created
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
         public IActionResult Register(NewPassengerDto dto)  // Http post EndPoint
         {
-            throw new NotImplementedException();
+            Passengers.Add(dto);
+            System.Diagnostics.Debug.WriteLine(Passengers.Count);
+            return Ok();
         }
     }
 }
