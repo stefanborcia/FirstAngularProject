@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Time } from '@angular/common';
 import { FlightService } from './../api/services/flight.service';
 import { FlightRm } from '../api/models';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-search-firstangularproject',

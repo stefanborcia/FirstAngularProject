@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import{ FlightService } from './../api/services/flight.service';
 import { FlightRm } from '../api/models';
+import { FormBuilder, Validators } from '@angular/forms';
 
 
 @Component({
