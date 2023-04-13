@@ -13,9 +13,9 @@ export class RegisterPassengerComponent implements OnInit{
   constructor(private passengerService: PassengerService, private fb: FormBuilder, private authService: AuthService) { }
 
   form =this.fb.group({
-    email: [''],
-    firstName: [''],
-    lastName: [''],
+    email: [""],
+    firstName: [""],
+    lastName: [""],
     isFemale: [true]
   });
 
@@ -24,7 +24,8 @@ export class RegisterPassengerComponent implements OnInit{
   }
 
   checkPassenger(): void {
-    const params = { email: this.form.get('email')?.value }
+    const params = {email : this.form.get("email")?.value as string
+    }
 
     this.passengerService.findPassenger(params).subscribe(
       this.login);
@@ -38,7 +39,7 @@ export class RegisterPassengerComponent implements OnInit{
   }
 
   private login = () => {
-    this.authService.loginUser({ email: this.form.get('email')?.value});
+    this.authService.loginUser({ email: this.form.get("email")?.value as string});
   }
 
 }
