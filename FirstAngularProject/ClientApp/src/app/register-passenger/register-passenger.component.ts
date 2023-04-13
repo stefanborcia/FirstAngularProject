@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { PassengerService } from './../api/services/passenger.service';
-import { FormBuilder } from '@angular/forms';
-import{ AuthService } from '../auth/auth.service';
+import { FormBuilder, Validators } from '@angular/forms';
+import { AuthService } from '../auth/auth.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-register-passenger',
@@ -10,21 +11,28 @@ import{ AuthService } from '../auth/auth.service';
 })
 export class RegisterPassengerComponent implements OnInit{
 
-  constructor(private passengerService: PassengerService, private fb: FormBuilder, private authService: AuthService) { }
+  constructor(private passengerService: PassengerService,
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute) { }
 
-  form =this.fb.group({
-    email: [""],
-    firstName: [""],
-    lastName: [""],
-    isFemale: [true]
-  });
+  requestedUrl?: undefined = undefined;
+
+  form = this.fb.group({
+    email: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(100)])],
+    firstName: ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(35)])],
+    lastName: ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(35)])],
+    isFemale: [true, Validators.required]
+  })
+
 
   ngOnInit(): void {
-
+    this.activatedRoute.params.subscribe(p => this.requestedUrl = p['requestedUrl'])
   }
 
   checkPassenger(): void {
-    const params = {email : this.form.get("email")?.value as string
+    const params = {email : this.form.get("email")?.value!
     }
 
     this.passengerService.findPassenger(params).subscribe(
@@ -32,14 +40,20 @@ export class RegisterPassengerComponent implements OnInit{
   }
 
   register() {
+
+    if (this.form.invalid)
+      return;
+
     console.log("Form Values:", this.form.value);
 
     this.passengerService.registerPassenger({ body: this.form.value })
-      .subscribe(_ => this.login, console.error);
+      .subscribe(this.login, console.error)
+
   }
 
   private login = () => {
-    this.authService.loginUser({ email: this.form.get("email")?.value as string});
+    this.authService.loginUser({ email: this.form.get("email")?.value! });
+    this.router.navigate([this.requestedUrl ?? '/search-flights']);
   }
 
 }

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using FirstAngularProject.Dtos;
 using FirstAngularProject.ReadModels;
+
 
 namespace FirstAngularProject.Controllers;
 
@@ -69,6 +71,7 @@ public class FlightController : ControllerBase
             random.Next(1, 853))
     };
 
+    static private IList<BookDto> Bookings = new List<BookDto>();
 
     public FlightController(ILogger<FlightController> logger)
     {
@@ -95,6 +98,13 @@ public class FlightController : ControllerBase
             return Ok(flight);
         }
         
+    }
+
+    [HttpPost]
+    public void Book(BookDto dto)
+    {
+        System.Diagnostics.Debug.WriteLine($"Booking a new flight{dto.FlightId}");
+        Bookings.Add(dto);
     }
 
 
