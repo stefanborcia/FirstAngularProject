@@ -2,16 +2,13 @@
 using System;
 using FirstAngularProject.Dtos;
 using FirstAngularProject.ReadModels;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace FirstAngularProject.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[ProducesResponseType(StatusCodes.Status400BadRequest)]
-[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-[ProducesResponseType(typeof(FlightRm), 200)]
-
 public class FlightController : ControllerBase
 {
 
@@ -101,10 +98,20 @@ public class FlightController : ControllerBase
     }
 
     [HttpPost]
-    public void Book(BookDto dto)
+    [ProducesResponseType(400)]
+    [ProducesResponseType(500)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(200)]
+    public void IActionResultBook(BookDto dto)
     {
         System.Diagnostics.Debug.WriteLine($"Booking a new flight{dto.FlightId}");
-        Bookings.Add(dto);
+
+        //var foundFlight = flights.Any(f => f.Id == dto.FlightId);
+        //if (foundFlight == false)
+        //    return NotFound();
+
+        //Bookings.Add(dto);
+        //return CreatedAtAction(nameof(Find), new { id = dto.FlightId });
     }
 
 

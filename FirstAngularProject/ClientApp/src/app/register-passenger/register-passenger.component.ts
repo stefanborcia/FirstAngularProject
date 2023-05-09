@@ -1,3 +1,4 @@
+/// <reference path="../auth/auth.service.ts" />
 import { Component, OnInit } from '@angular/core';
 import { PassengerService } from './../api/services/passenger.service';
 import { FormBuilder, Validators } from '@angular/forms';
