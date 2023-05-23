@@ -28,7 +28,7 @@ export class BookFlightComponent implements OnInit {
   flight: FlightRm = {};
 
   form = this.fb.group({
-    number: [1, Validators.compose([Validators.required, Validators.min(1), Validators.max(254)])]
+    number: [1, Validators.compose([Validators.required, Validators.min(1), Validators.max(255)])]
   })
 
   ngOnInit(): void {
@@ -71,6 +71,6 @@ export class BookFlightComponent implements OnInit {
   }
 
   get number() {
-    return this.form.controls.number
+    return this.form.controls.number;
   }
 }

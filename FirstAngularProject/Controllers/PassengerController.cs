@@ -9,17 +9,19 @@ namespace FirstAngularProject.Controllers
     [ApiController]
     public class PassengerController : ControllerBase
     {
-        static private IList<NewPassengerDto> Passengers = new List<NewPassengerDto>();
+        static private IList<Passenger> Passengers = new List<Passenger>();
 
 
         [HttpPost]
         [ProducesResponseType(201)] //created
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public IActionResult Register(NewPassengerDto dto)  // Http post EndPoint
+        public IActionResult Register(Passenger dto)  // Http post EndPoint
         {
-            Passengers.Add(dto);
+            Passengers.Add(new Passenger(dto.Email,dto.FirstName, dto.LastName,dto.Gender));
+
             System.Diagnostics.Debug.WriteLine(Passengers.Count);
+
             return CreatedAtAction(nameof(Find), new{email =dto.Email});
         }
 
@@ -33,7 +35,7 @@ namespace FirstAngularProject.Controllers
                 return NotFound();
             }
 
-            var rm= new PassengerRm(
+            var rm = new PassengerRm(
                 passenger.Email,
                 passenger.FirstName,
                 passenger.LastName,
