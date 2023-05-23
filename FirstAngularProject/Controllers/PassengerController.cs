@@ -12,15 +12,22 @@ namespace FirstAngularProject.Controllers
     [ApiController]
     public class PassengerController : ControllerBase
     {
+        private readonly Entities _entities;
+
+        public PassengerController(Entities entities)
+        {
+            _entities = entities;
+        }
+
         [HttpPost]
         [ProducesResponseType(201)] //created
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
         public IActionResult Register(Passenger dto)  // Http post EndPoint
         {
-            Entities.Passengers.Add(new Passenger(dto.Email,dto.FirstName, dto.LastName,dto.Gender));
+            _entities.Passengers.Add(new Passenger(dto.Email,dto.FirstName, dto.LastName,dto.Gender));
 
-            System.Diagnostics.Debug.WriteLine(Entities.Passengers.Count);
+            System.Diagnostics.Debug.WriteLine(_entities.Passengers.Count);
 
             return CreatedAtAction(nameof(Find), new{email =dto.Email});
         }
@@ -28,7 +35,7 @@ namespace FirstAngularProject.Controllers
         [HttpGet("{email}")]
         public ActionResult<PassengerRm> Find(string email)
         {
-            var passenger = Entities.Passengers.FirstOrDefault(p => p.Email == email);
+            var passenger = _entities.Passengers.FirstOrDefault(p => p.Email == email);
 
             if (passenger == null)
             {
