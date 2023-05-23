@@ -1,4 +1,5 @@
-﻿using FirstAngularProject.ReadModels;
+﻿using FirstAngularProject.Domain.Errors;
+using FirstAngularProject.ReadModels;
 
 namespace FirstAngularProject.Domain.Entities
 {
@@ -14,6 +15,21 @@ namespace FirstAngularProject.Domain.Entities
     {
         public IList<Booking> Bookings = new List<Booking>();
         public int RemainingNumberOfSeats { get; set; } = RemainingNumberOfSeats;
+
+        public object? MakeBooking(string passengerEmail, byte numberOfSeats)
+        {
+            var flight = this;
+
+            if (flight.RemainingNumberOfSeats < numberOfSeats)
+            {
+                return new OverbookError();
+            }
+            flight.Bookings.Add(
+                new Booking(passengerEmail, numberOfSeats));
+
+            flight.RemainingNumberOfSeats -= numberOfSeats;
+            return null;
+        }
     }
 
 
