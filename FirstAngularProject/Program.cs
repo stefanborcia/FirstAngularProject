@@ -1,9 +1,14 @@
 using Microsoft.OpenApi.Models;
 using FirstAngularProject.Data;
 using FirstAngularProject.Domain.Entities;
+using Flights.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add db Context
+
+builder.Services.AddDbContext<Entities>(options => options.UseInMemoryDatabase(databaseName: "Flights"),ServiceLifetime.Singleton);
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
@@ -78,6 +83,8 @@ Flight[] flights = new Flight[]
         random.Next(1, 853))
 };
 entities.Flights.AddRange(flights);
+
+entities.SaveChanges();
 
 app.UseCors(builder => builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader());
 app.UseSwagger().UseSwaggerUI();

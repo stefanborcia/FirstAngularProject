@@ -1,20 +1,42 @@
-﻿using FirstAngularProject.Domain.Errors;
-using FirstAngularProject.ReadModels;
+﻿using FirstAngularProject.Domain.Entities;
+using FirstAngularProject.Domain.Errors;
 
-namespace FirstAngularProject.Domain.Entities
+namespace Flights.Domain.Entities
 {
-    public record Flight(
-        Guid Id,
-        string Airline,
-        string Price,
-        TimePlace Departure,
-        TimePlace Arrival,
-        int RemainingNumberOfSeats
-    )
-
+    public class Flight
     {
+
+        public Guid Id { get; set; }
+        public string Airline { get; set; }
+        public string Price { get; set; }
+        public TimePlace Departure { get; set; }
+        public TimePlace Arrival { get; set; }
+        public int RemainingNumberOfSeats { get; set; }
+
         public IList<Booking> Bookings = new List<Booking>();
-        public int RemainingNumberOfSeats { get; set; } = RemainingNumberOfSeats;
+
+        public Flight()
+        {
+
+        }
+
+        public Flight(
+            Guid id,
+            string airline,
+            string price,
+            TimePlace departure,
+            TimePlace arrival,
+            int remainingNumberOfSeats
+        )
+        {
+            Id = id;
+            Airline = airline;
+            Price = price;
+            Departure = departure;
+            Arrival = arrival;
+            RemainingNumberOfSeats = remainingNumberOfSeats;
+        }
+
 
         public object? MakeBooking(string passengerEmail, byte numberOfSeats)
         {
@@ -24,13 +46,30 @@ namespace FirstAngularProject.Domain.Entities
             {
                 return new OverbookError();
             }
+
             flight.Bookings.Add(
-                new Booking(passengerEmail, numberOfSeats));
+                new Booking(
+                    passengerEmail,
+                    numberOfSeats)
+            );
 
             flight.RemainingNumberOfSeats -= numberOfSeats;
             return null;
         }
-    }
 
+        public object? CancelBooking(string passengerEmail, byte numberOfSeats)
+        {
+            var booking = Bookings.FirstOrDefault(b => numberOfSeats == b.NumberOfSeats
+                                                       && passengerEmail.ToLower() == b.PassengerEmail.ToLower());
+
+            if (booking == null)
+                return new NotFoundError();
+
+            Bookings.Remove(booking);
+            RemainingNumberOfSeats += booking.NumberOfSeats;
+
+            return null;
+        }
+    }
 
 }
