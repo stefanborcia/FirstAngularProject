@@ -6,31 +6,31 @@ import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-search-flights',
-  templateUrl: './search-flights.component.html',
-  styleUrls: ['./search-flights.component.css']
+  templateUrl: './search-firstangularproject.component.html',
+  styleUrls: ['./search-firstangularproject.component.css']
 })
 export class SearchFlightsComponent implements OnInit {
 
 
-  searchResult: FlightRm[] = []
+  searchResult: FlightRm[] = [];
 
   constructor(private flightService: FlightService,
     private fb: FormBuilder) { }
 
   searchForm = this.fb.group({
-    from: [''],
-    destination: [''],
-    fromDate: [''],
-    toDate: [''],
+    from: [""],
+    destination: [""],
+    fromDate: [""],
+    toDate: [""],
     numberOfPassengers: [1]
-  })
+  });
 
   ngOnInit(): void {
     this.search();
   }
 
   search() {
-    this.flightService.searchFlight(this.searchForm.value)
+    this.flightService.searchFlight((this.searchForm.value as object) as any)
       .subscribe(response => this.searchResult = response,
         this.handleError);
   }

@@ -2,13 +2,13 @@ using Microsoft.OpenApi.Models;
 using Flights.Data;
 using Flights.Domain.Entities;
 using FirstAngularProject.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add db context
 builder.Services.AddDbContext<Entities>(options =>
-    options.UseSqlServer(
-        "Data Source=localhost,1433;" + "Database = Flights;" + "User Id=SA;" + "Password="));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Flights")));
 
 // Add services to the container.
 
@@ -20,7 +20,7 @@ builder.Services.AddSwaggerGen(c =>
     c.AddServer(new OpenApiServer
     {
         Description = "Development Server",
-        Url = "https://localhost:7280"
+        Url = "https://localhost:7106"
     });
 
     c.CustomOperationIds(e => $"{e.ActionDescriptor.RouteValues["action"] + e.ActionDescriptor.RouteValues["controller"]}");
