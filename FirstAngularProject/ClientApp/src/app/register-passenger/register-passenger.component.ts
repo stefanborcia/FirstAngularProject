@@ -1,4 +1,3 @@
-/// <reference path="../auth/auth.service.ts" />
 import { Component, OnInit } from '@angular/core';
 import { PassengerService } from './../api/services/passenger.service';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -10,7 +9,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   templateUrl: './register-passenger.component.html',
   styleUrls: ['./register-passenger.component.css']
 })
-export class RegisterPassengerComponent implements OnInit{
+export class RegisterPassengerComponent implements OnInit {
 
   constructor(private passengerService: PassengerService,
     private fb: FormBuilder,
@@ -18,7 +17,7 @@ export class RegisterPassengerComponent implements OnInit{
     private router: Router,
     private activatedRoute: ActivatedRoute) { }
 
-  requestedUrl?: undefined = undefined;
+  requestedUrl?: string ;
 
   form = this.fb.group({
     email: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(100)])],
@@ -27,17 +26,21 @@ export class RegisterPassengerComponent implements OnInit{
     isFemale: [true, Validators.required]
   })
 
-
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(p => this.requestedUrl = p['requestedUrl'])
   }
 
   checkPassenger(): void {
-    const params = {email : this.form.get("email")?.value!
-    }
+    const params = { email: this.form.get('email')?.value as string}
 
-    this.passengerService.findPassenger(params).subscribe(
-      this.login);
+    this.passengerService
+      .findPassenger(params)
+      .subscribe(
+        this.login, e => {
+          if (e.status != 404)
+            console.error(e)
+        }
+      )
   }
 
   register() {
@@ -53,7 +56,7 @@ export class RegisterPassengerComponent implements OnInit{
   }
 
   private login = () => {
-    this.authService.loginUser({ email: this.form.get("email")?.value! });
+    this.authService.loginUser({ email: this.form.get('email')?.value as string});
     this.router.navigate([this.requestedUrl ?? '/search-flights']);
   }
 

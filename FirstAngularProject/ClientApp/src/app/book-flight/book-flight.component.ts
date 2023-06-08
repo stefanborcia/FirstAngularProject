@@ -5,57 +5,55 @@ import { BookDto, FlightRm } from '../api/models';
 import { AuthService } from '../auth/auth.service';
 import { FormBuilder, Validators } from '@angular/forms';
 
-
-
 @Component({
   selector: 'app-book-flight',
   templateUrl: './book-flight.component.html',
   styleUrls: ['./book-flight.component.css']
 })
-
-
 export class BookFlightComponent implements OnInit {
 
-  constructor(
-    private route: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
     private router: Router,
     private flightService: FlightService,
     private authService: AuthService,
     private fb: FormBuilder) { }
-  
-  flightId: string = 'Not Loaded';
 
-  flight: FlightRm = {};
+  flightId: string = 'not loaded'
+  flight: FlightRm = {}
 
   form = this.fb.group({
-    number: [1, Validators.compose([Validators.required, Validators.min(1), Validators.max(255)])]
+    number: [1, Validators.compose([Validators.required, Validators.min(1), Validators.max(254)])]
   })
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(p => this.findFlight(p.get("flightId")));
+    this.route.paramMap
+      .subscribe(p => this.findFlight(p.get("flightId")))
   }
 
   private findFlight = (flightId: string | null) => {
     this.flightId = flightId ?? 'not passed';
 
     this.flightService.findFlight({ id: this.flightId })
-      .subscribe(flight => this.flight = flight, this.handleError);
+      .subscribe(flight => this.flight = flight,
+        this.handleError)
   }
 
-  private handleError = (error: any) => {
+  private handleError = (err: any) => {
 
-    if (error.status == 404) {
+    if (err.status == 404) {
       alert("Flight not found!")
-      this.router.navigate(['/search-flights']);
+      this.router.navigate(['/search-flights'])
     }
 
-    if (error.status == 409) {
-      console.log("err: " + error);
-      alert(JSON.parse(error.error).message);
+
+    if (err.status == 409) {
+      console.log("err: " + err);
+      alert(JSON.parse(err.error).message)
     }
-    console.log("Response Error. Status:", error.status);
-    console.log("Response Error. Status Text:", error.statusText);
-    console.log(error);
+
+    console.log("Response Error. Status: ", err.status)
+    console.log("Response Error. Status Text: ", err.statusText)
+    console.log(err)
   }
 
   book() {
@@ -63,20 +61,23 @@ export class BookFlightComponent implements OnInit {
     if (this.form.invalid)
       return;
 
+
     console.log(`Booking ${this.form.get('number')?.value} passengers for the flight: ${this.flight.id}`)
 
     const booking: BookDto = {
       flightId: this.flight.id,
       passengerEmail: this.authService.currentUser?.email,
-      numberOfSeates: this.form.get('number')?.value!
-    }
+      numberOfSeats: this.form.get('number')?.value
+  }
 
     this.flightService.bookFlight({ body: booking })
       .subscribe(_ => this.router.navigate(['/my-booking']),
         this.handleError)
+
   }
 
   get number() {
-    return this.form.controls.number;
+    return this.form.controls.number
   }
+
 }

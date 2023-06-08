@@ -1,11 +1,12 @@
 /* tslint:disable */
 /* eslint-disable */
 import { TimePlaceRm } from './time-place-rm';
-export interface FlightRm {
+export interface BookingRm {
   airline?: null | string;
   arrival?: TimePlaceRm;
   departure?: TimePlaceRm;
-  id?: string;
+  flightId?: string;
+  numberOfBookedSeats?: null | number;
+  passengerEmail?: null | string;
   price?: null | string;
-  remainingNumberOfSeats?: null | number;
 }

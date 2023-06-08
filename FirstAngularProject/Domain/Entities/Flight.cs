@@ -1,5 +1,6 @@
 ﻿using FirstAngularProject.Domain.Entities;
 using FirstAngularProject.Domain.Errors;
+using FirstAngularProject.Domain.Errors;
 
 namespace Flights.Domain.Entities
 {

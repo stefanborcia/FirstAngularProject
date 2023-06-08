@@ -1,7 +1,7 @@
-﻿using FirstAngularProject.Data;
-using FirstAngularProject.Domain.Entities;
+﻿using FirstAngularProject.Domain.Entities;
 using FirstAngularProject.Dtos;
 using FirstAngularProject.ReadModels;
+using Flights.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

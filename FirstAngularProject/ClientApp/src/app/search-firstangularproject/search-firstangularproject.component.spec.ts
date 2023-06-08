@@ -1,18 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SearchFirstangularprojectComponent } from './search-firstangularproject.component';
+import { SearchFlightsComponent } from './search-firstangularproject.component';
 
-describe('SearchFirstangularprojectComponent', () => {
-  let component: SearchFirstangularprojectComponent;
-  let fixture: ComponentFixture<SearchFirstangularprojectComponent>;
+describe('SearchFlightsComponent', () => {
+  let component: SearchFlightsComponent;
+  let fixture: ComponentFixture<SearchFlightsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SearchFirstangularprojectComponent ]
-    })
-    .compileComponents();
+        declarations: [SearchFlightsComponent]
+      })
+      .compileComponents();
+  });
 
-    fixture = TestBed.createComponent(SearchFirstangularprojectComponent);
+  beforeEach(() => {
+    fixture = TestBed.createComponent(SearchFlightsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

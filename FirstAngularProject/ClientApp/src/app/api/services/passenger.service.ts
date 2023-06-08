@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse, HttpContext } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
@@ -36,10 +36,7 @@ export class PassengerService extends BaseService {
    */
   registerPassenger$Response(params?: {
     body?: NewPassengerDto
-  },
-  context?: HttpContext
-
-): Observable<StrictHttpResponse<void>> {
+  }): Observable<StrictHttpResponse<void>> {
 
     const rb = new RequestBuilder(this.rootUrl, PassengerService.RegisterPassengerPath, 'post');
     if (params) {
@@ -48,8 +45,7 @@ export class PassengerService extends BaseService {
 
     return this.http.request(rb.build({
       responseType: 'text',
-      accept: '*/*',
-      context: context
+      accept: '*/*'
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
@@ -59,19 +55,16 @@ export class PassengerService extends BaseService {
   }
 
   /**
-   * This method provides access only to the response body.
+   * This method provides access to only to the response body.
    * To access the full response (for headers, for example), `registerPassenger$Response()` instead.
    *
    * This method sends `application/*+json` and handles request body of type `application/*+json`.
    */
   registerPassenger(params?: {
     body?: NewPassengerDto
-  },
-  context?: HttpContext
+  }): Observable<void> {
 
-): Observable<void> {
-
-    return this.registerPassenger$Response(params,context).pipe(
+    return this.registerPassenger$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
@@ -89,10 +82,7 @@ export class PassengerService extends BaseService {
    */
   findPassenger$Plain$Response(params: {
     email: string;
-  },
-  context?: HttpContext
-
-): Observable<StrictHttpResponse<PassengerRm>> {
+  }): Observable<StrictHttpResponse<PassengerRm>> {
 
     const rb = new RequestBuilder(this.rootUrl, PassengerService.FindPassengerPath, 'get');
     if (params) {
@@ -101,8 +91,7 @@ export class PassengerService extends BaseService {
 
     return this.http.request(rb.build({
       responseType: 'text',
-      accept: 'text/plain',
-      context: context
+      accept: 'text/plain'
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
@@ -112,19 +101,16 @@ export class PassengerService extends BaseService {
   }
 
   /**
-   * This method provides access only to the response body.
+   * This method provides access to only to the response body.
    * To access the full response (for headers, for example), `findPassenger$Plain$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
   findPassenger$Plain(params: {
     email: string;
-  },
-  context?: HttpContext
+  }): Observable<PassengerRm> {
 
-): Observable<PassengerRm> {
-
-    return this.findPassenger$Plain$Response(params,context).pipe(
+    return this.findPassenger$Plain$Response(params).pipe(
       map((r: StrictHttpResponse<PassengerRm>) => r.body as PassengerRm)
     );
   }
@@ -137,10 +123,7 @@ export class PassengerService extends BaseService {
    */
   findPassenger$Response(params: {
     email: string;
-  },
-  context?: HttpContext
-
-): Observable<StrictHttpResponse<PassengerRm>> {
+  }): Observable<StrictHttpResponse<PassengerRm>> {
 
     const rb = new RequestBuilder(this.rootUrl, PassengerService.FindPassengerPath, 'get');
     if (params) {
@@ -149,8 +132,7 @@ export class PassengerService extends BaseService {
 
     return this.http.request(rb.build({
       responseType: 'json',
-      accept: 'text/json',
-      context: context
+      accept: 'text/json'
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
@@ -160,19 +142,16 @@ export class PassengerService extends BaseService {
   }
 
   /**
-   * This method provides access only to the response body.
+   * This method provides access to only to the response body.
    * To access the full response (for headers, for example), `findPassenger$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
   findPassenger(params: {
     email: string;
-  },
-  context?: HttpContext
+  }): Observable<PassengerRm> {
 
-): Observable<PassengerRm> {
-
-    return this.findPassenger$Response(params,context).pipe(
+    return this.findPassenger$Response(params).pipe(
       map((r: StrictHttpResponse<PassengerRm>) => r.body as PassengerRm)
     );
   }
